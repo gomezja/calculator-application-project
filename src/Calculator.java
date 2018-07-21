@@ -102,6 +102,12 @@ public class Calculator {
 		btnC.setBounds(136, 132, 106, 80);
 		frmCalculator.getContentPane().add(btnC);
 		
+		btnC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("0");
+			}
+		});
+		
 		// button divide (/)
 		btnDivide = new JButton("\u00F7");
 		btnDivide.setBackground(new Color(63, 81, 111));
@@ -155,12 +161,30 @@ public class Calculator {
 		btnZero.setBounds(136, 516, 106, 80);
 		frmCalculator.getContentPane().add(btnZero);
 		
+		btnZero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("0");
+				else
+					textField.setText(textField.getText() + "0");
+			}
+		});
+		
 		// button one (1)
 		btnOne = new JButton("1");
 		btnOne.setBackground(Color.WHITE);
 		btnOne.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnOne.setBounds(15, 420, 106, 80);
 		frmCalculator.getContentPane().add(btnOne);
+		
+		btnOne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("1");
+				else
+					textField.setText(textField.getText() + "1");
+			}
+		});
 		
 		// button two (2)
 		btnTwo = new JButton("2");
@@ -169,12 +193,30 @@ public class Calculator {
 		btnTwo.setBounds(136, 420, 106, 80);
 		frmCalculator.getContentPane().add(btnTwo);
 		
+		btnTwo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("2");
+				else
+					textField.setText(textField.getText() + "2");
+			}
+		});
+		
 		// button three (3)
 		btnThree = new JButton("3");
 		btnThree.setBackground(Color.WHITE);
 		btnThree.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnThree.setBounds(257, 420, 106, 80);
 		frmCalculator.getContentPane().add(btnThree);
+		
+		btnThree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("3");
+				else
+					textField.setText(textField.getText() + "3");
+			}
+		});
 		
 		// button four (4)
 		btnFour = new JButton("4");
@@ -183,12 +225,30 @@ public class Calculator {
 		btnFour.setBounds(15, 324, 106, 80);
 		frmCalculator.getContentPane().add(btnFour);
 		
+		btnFour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("4");
+				else
+					textField.setText(textField.getText() + "4");
+			}
+		});
+		
 		// button five (5)
 		btnFive = new JButton("5");
 		btnFive.setBackground(Color.WHITE);
 		btnFive.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnFive.setBounds(136, 324, 106, 80);
 		frmCalculator.getContentPane().add(btnFive);
+		
+		btnFive.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("5");
+				else
+					textField.setText(textField.getText() + "5");
+			}
+		});
 		
 		// button six (6)
 		btnSix = new JButton("6");
@@ -197,6 +257,14 @@ public class Calculator {
 		btnSix.setBounds(257, 324, 106, 80);
 		frmCalculator.getContentPane().add(btnSix);
 
+		btnSix.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("6");
+				else
+					textField.setText(textField.getText() + "6");
+			}
+		});
 		
 		// button seven (7)
 		btnSeven = new JButton("7");
@@ -204,8 +272,13 @@ public class Calculator {
 		btnSeven.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnSeven.setBounds(15, 228, 106, 80);
 		frmCalculator.getContentPane().add(btnSeven);
+		
 		btnSeven.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("7");
+				else
+					textField.setText(textField.getText() + "7");
 			}
 		});
 		
@@ -215,8 +288,13 @@ public class Calculator {
 		btnEight.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnEight.setBounds(136, 228, 106, 80);
 		frmCalculator.getContentPane().add(btnEight);
+
 		btnEight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("8");
+				else
+					textField.setText(textField.getText() + "8");
 			}
 		});
 		
@@ -226,6 +304,15 @@ public class Calculator {
 		btnNine.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnNine.setBounds(257, 228, 106, 80);
 		frmCalculator.getContentPane().add(btnNine);
+		
+		btnNine.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().equals("0"))
+					textField.setText("9");
+				else
+					textField.setText(textField.getText() + "9");
+			}
+		});
 		
 		/***************************************************/
 		
