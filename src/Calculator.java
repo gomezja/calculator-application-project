@@ -9,11 +9,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.SystemColor;
+import javax.swing.JLabel;
 
 public class Calculator {
 
 	private JFrame frmCalculator;
 	private JTextField textField;
+	private JLabel prevOperation;
 	
 	private JButton btnCe;
 	private JButton btnC;
@@ -67,9 +69,17 @@ public class Calculator {
 		// window
 		frmCalculator = new JFrame();
 		frmCalculator.setTitle("Calculator");
-		frmCalculator.setBounds(100, 100, 520, 670);
+		frmCalculator.setBounds(100, 100, 520, 750);
 		frmCalculator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculator.getContentPane().setLayout(null);
+		
+		// label
+		prevOperation = new JLabel("");
+		prevOperation.setForeground(SystemColor.textInactiveText);
+		prevOperation.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		prevOperation.setHorizontalAlignment(SwingConstants.TRAILING);
+		prevOperation.setBounds(15, 16, 469, 45);
+		frmCalculator.getContentPane().add(prevOperation);
 		
 		// text area
 		textField = new JTextField();
@@ -78,19 +88,25 @@ public class Calculator {
 		textField.setHorizontalAlignment(SwingConstants.TRAILING);
 		textField.setText("0");
 		textField.setFont(new Font("Tahoma", Font.BOLD, 48));
-		textField.setBounds(15, 16, 469, 100);
+		textField.setBounds(15, 75, 469, 100);
 		frmCalculator.getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		/***************************************************/
 		
 		// button CE
 		btnCe = new JButton("CE");
 		btnCe.setBackground(new Color(170, 90, 111));
 		btnCe.setForeground(SystemColor.text);
 		btnCe.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnCe.setBounds(15, 132, 106, 80);
+		btnCe.setBounds(15, 191, 106, 80);
 		frmCalculator.getContentPane().add(btnCe);
+		
 		btnCe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// reset all text on calculator
+				resetLabel();
+				resetTextfield();
 			}
 		});
 		
@@ -99,12 +115,12 @@ public class Calculator {
 		btnC.setBackground(new Color(170, 90, 111));
 		btnC.setForeground(SystemColor.text);
 		btnC.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnC.setBounds(136, 132, 106, 80);
+		btnC.setBounds(136, 191, 106, 80);
 		frmCalculator.getContentPane().add(btnC);
 		
 		btnC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText("0");
+				resetTextfield();
 			}
 		});
 		
@@ -113,7 +129,7 @@ public class Calculator {
 		btnDivide.setBackground(new Color(63, 81, 111));
 		btnDivide.setForeground(SystemColor.text);
 		btnDivide.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnDivide.setBounds(257, 132, 106, 80);
+		btnDivide.setBounds(257, 191, 106, 80);
 		frmCalculator.getContentPane().add(btnDivide);
 		
 		// button multiply (*)
@@ -121,7 +137,7 @@ public class Calculator {
 		btnMultiply.setBackground(new Color(63, 81, 111));
 		btnMultiply.setForeground(SystemColor.text);
 		btnMultiply.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnMultiply.setBounds(378, 132, 106, 80);
+		btnMultiply.setBounds(378, 191, 106, 80);
 		frmCalculator.getContentPane().add(btnMultiply);
 				
 		// button subtract (-)
@@ -129,7 +145,7 @@ public class Calculator {
 		btnMinus.setBackground(new Color(63, 81, 111));
 		btnMinus.setForeground(SystemColor.text);
 		btnMinus.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnMinus.setBounds(378, 228, 106, 80);
+		btnMinus.setBounds(378, 287, 106, 80);
 		frmCalculator.getContentPane().add(btnMinus);
 		btnMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -141,15 +157,24 @@ public class Calculator {
 		btnPlus.setBackground(new Color(63, 81, 111));
 		btnPlus.setForeground(SystemColor.text);
 		btnPlus.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnPlus.setBounds(378, 324, 106, 80);
+		btnPlus.setBounds(378, 383, 106, 80);
 		frmCalculator.getContentPane().add(btnPlus);
+		
+		btnPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// set label
+				prevOperation.setText(prevOperation.getText() + textField.getText() + " + ");
+				
+				resetTextfield();
+			}
+		});
 		
 		// button equals (=)
 		btnEquals = new JButton("=");
 		btnEquals.setBackground(new Color(63, 81, 111));
 		btnEquals.setForeground(SystemColor.text);
 		btnEquals.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnEquals.setBounds(378, 420, 106, 176);
+		btnEquals.setBounds(378, 479, 106, 176);
 		frmCalculator.getContentPane().add(btnEquals);
 		
 		/***************************************************/
@@ -158,7 +183,7 @@ public class Calculator {
 		btnZero = new JButton("0");
 		btnZero.setBackground(Color.WHITE);
 		btnZero.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnZero.setBounds(136, 516, 106, 80);
+		btnZero.setBounds(136, 575, 106, 80);
 		frmCalculator.getContentPane().add(btnZero);
 		
 		btnZero.addActionListener(new ActionListener() {
@@ -174,7 +199,7 @@ public class Calculator {
 		btnOne = new JButton("1");
 		btnOne.setBackground(Color.WHITE);
 		btnOne.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnOne.setBounds(15, 420, 106, 80);
+		btnOne.setBounds(15, 479, 106, 80);
 		frmCalculator.getContentPane().add(btnOne);
 		
 		btnOne.addActionListener(new ActionListener() {
@@ -190,7 +215,7 @@ public class Calculator {
 		btnTwo = new JButton("2");
 		btnTwo.setBackground(Color.WHITE);
 		btnTwo.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnTwo.setBounds(136, 420, 106, 80);
+		btnTwo.setBounds(136, 479, 106, 80);
 		frmCalculator.getContentPane().add(btnTwo);
 		
 		btnTwo.addActionListener(new ActionListener() {
@@ -206,7 +231,7 @@ public class Calculator {
 		btnThree = new JButton("3");
 		btnThree.setBackground(Color.WHITE);
 		btnThree.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnThree.setBounds(257, 420, 106, 80);
+		btnThree.setBounds(257, 479, 106, 80);
 		frmCalculator.getContentPane().add(btnThree);
 		
 		btnThree.addActionListener(new ActionListener() {
@@ -222,7 +247,7 @@ public class Calculator {
 		btnFour = new JButton("4");
 		btnFour.setBackground(Color.WHITE);
 		btnFour.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnFour.setBounds(15, 324, 106, 80);
+		btnFour.setBounds(15, 383, 106, 80);
 		frmCalculator.getContentPane().add(btnFour);
 		
 		btnFour.addActionListener(new ActionListener() {
@@ -238,7 +263,7 @@ public class Calculator {
 		btnFive = new JButton("5");
 		btnFive.setBackground(Color.WHITE);
 		btnFive.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnFive.setBounds(136, 324, 106, 80);
+		btnFive.setBounds(136, 383, 106, 80);
 		frmCalculator.getContentPane().add(btnFive);
 		
 		btnFive.addActionListener(new ActionListener() {
@@ -254,7 +279,7 @@ public class Calculator {
 		btnSix = new JButton("6");
 		btnSix.setBackground(Color.WHITE);
 		btnSix.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnSix.setBounds(257, 324, 106, 80);
+		btnSix.setBounds(257, 383, 106, 80);
 		frmCalculator.getContentPane().add(btnSix);
 
 		btnSix.addActionListener(new ActionListener() {
@@ -270,7 +295,7 @@ public class Calculator {
 		btnSeven = new JButton("7");
 		btnSeven.setBackground(Color.WHITE);
 		btnSeven.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnSeven.setBounds(15, 228, 106, 80);
+		btnSeven.setBounds(15, 287, 106, 80);
 		frmCalculator.getContentPane().add(btnSeven);
 		
 		btnSeven.addActionListener(new ActionListener() {
@@ -286,7 +311,7 @@ public class Calculator {
 		btnEight = new JButton("8");
 		btnEight.setBackground(Color.WHITE);
 		btnEight.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnEight.setBounds(136, 228, 106, 80);
+		btnEight.setBounds(136, 287, 106, 80);
 		frmCalculator.getContentPane().add(btnEight);
 
 		btnEight.addActionListener(new ActionListener() {
@@ -302,7 +327,7 @@ public class Calculator {
 		btnNine = new JButton("9");
 		btnNine.setBackground(Color.WHITE);
 		btnNine.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnNine.setBounds(257, 228, 106, 80);
+		btnNine.setBounds(257, 287, 106, 80);
 		frmCalculator.getContentPane().add(btnNine);
 		
 		btnNine.addActionListener(new ActionListener() {
@@ -320,14 +345,28 @@ public class Calculator {
 		btnNegate = new JButton("+/-");
 		btnNegate.setBackground(Color.WHITE);
 		btnNegate.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnNegate.setBounds(15, 516, 106, 80);
+		btnNegate.setBounds(15, 575, 106, 80);
 		frmCalculator.getContentPane().add(btnNegate);
 		
 		// button decimal (.)
 		btnDecimal = new JButton(".");
 		btnDecimal.setBackground(Color.WHITE);
 		btnDecimal.setFont(new Font("Tahoma", Font.BOLD, 29));
-		btnDecimal.setBounds(257, 516, 106, 80);
+		btnDecimal.setBounds(257, 575, 106, 80);
 		frmCalculator.getContentPane().add(btnDecimal);
+		
+	}
+	/**
+	 * Resets calculator text field back to zero
+	 */
+	private void resetTextfield() {
+		textField.setText("0");
+	}
+	
+	/**
+	 * Clears calculator label
+	 */
+	private void resetLabel() {
+		prevOperation.setText("");
 	}
 }
