@@ -38,6 +38,8 @@ public class Calculator {
 	
 	private JButton btnNegate;
 	private JButton btnDecimal;
+	
+	private boolean operatorPressed = false;
 
 	/**
 	 * Launch the application.
@@ -132,6 +134,12 @@ public class Calculator {
 		btnDivide.setBounds(257, 191, 106, 80);
 		frmCalculator.getContentPane().add(btnDivide);
 		
+		btnDivide.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				operatorPressed("\u00F7");
+			}
+		});
+		
 		// button multiply (*)
 		btnMultiply = new JButton("*");
 		btnMultiply.setBackground(new Color(63, 81, 111));
@@ -139,6 +147,12 @@ public class Calculator {
 		btnMultiply.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnMultiply.setBounds(378, 191, 106, 80);
 		frmCalculator.getContentPane().add(btnMultiply);
+		
+		btnMultiply.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				operatorPressed("*");
+			}
+		});
 				
 		// button subtract (-)
 		btnMinus = new JButton("-");
@@ -147,8 +161,10 @@ public class Calculator {
 		btnMinus.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnMinus.setBounds(378, 287, 106, 80);
 		frmCalculator.getContentPane().add(btnMinus);
+
 		btnMinus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
+				operatorPressed("-");
 			}
 		});
 
@@ -162,10 +178,7 @@ public class Calculator {
 		
 		btnPlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// set label
-				prevOperation.setText(prevOperation.getText() + textField.getText() + " + ");
-				
-				resetTextfield();
+				operatorPressed("+");
 			}
 		});
 		
@@ -188,10 +201,7 @@ public class Calculator {
 		
 		btnZero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("0");
-				else
-					textField.setText(textField.getText() + "0");
+				setDigit("0");
 			}
 		});
 		
@@ -204,10 +214,7 @@ public class Calculator {
 		
 		btnOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("1");
-				else
-					textField.setText(textField.getText() + "1");
+				setDigit("1");
 			}
 		});
 		
@@ -220,10 +227,7 @@ public class Calculator {
 		
 		btnTwo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("2");
-				else
-					textField.setText(textField.getText() + "2");
+				setDigit("2");
 			}
 		});
 		
@@ -236,10 +240,7 @@ public class Calculator {
 		
 		btnThree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("3");
-				else
-					textField.setText(textField.getText() + "3");
+				setDigit("3");
 			}
 		});
 		
@@ -252,10 +253,7 @@ public class Calculator {
 		
 		btnFour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("4");
-				else
-					textField.setText(textField.getText() + "4");
+				setDigit("4");
 			}
 		});
 		
@@ -268,10 +266,7 @@ public class Calculator {
 		
 		btnFive.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("5");
-				else
-					textField.setText(textField.getText() + "5");
+				setDigit("5");
 			}
 		});
 		
@@ -284,10 +279,7 @@ public class Calculator {
 
 		btnSix.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("6");
-				else
-					textField.setText(textField.getText() + "6");
+				setDigit("6");
 			}
 		});
 		
@@ -300,10 +292,7 @@ public class Calculator {
 		
 		btnSeven.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("7");
-				else
-					textField.setText(textField.getText() + "7");
+				setDigit("7");
 			}
 		});
 		
@@ -316,10 +305,7 @@ public class Calculator {
 
 		btnEight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("8");
-				else
-					textField.setText(textField.getText() + "8");
+				setDigit("8");
 			}
 		});
 		
@@ -332,10 +318,7 @@ public class Calculator {
 		
 		btnNine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().equals("0"))
-					textField.setText("9");
-				else
-					textField.setText(textField.getText() + "9");
+				setDigit("9");
 			}
 		});
 		
@@ -368,5 +351,31 @@ public class Calculator {
 	 */
 	private void resetLabel() {
 		prevOperation.setText("");
+	}
+	
+	/**
+	 * Sets string parameter to current text field
+	 * 
+	 * @param digit
+	 */
+	private void setDigit(String digit) {
+		if(textField.getText().equals("0") || operatorPressed) {
+			textField.setText(digit);
+			operatorPressed = false;
+		}
+		else
+			textField.setText(textField.getText() + digit);
+	}
+	
+	/**
+	 * Adds to current calculator label
+	 * 
+	 * @param operator
+	 */
+	private void operatorPressed(String operator) {
+		if(!operatorPressed)
+			prevOperation.setText(prevOperation.getText() + textField.getText() + " " + operator + " ");
+		
+		operatorPressed = true;
 	}
 }
