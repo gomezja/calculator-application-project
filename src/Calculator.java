@@ -39,6 +39,9 @@ public class Calculator {
 	private JButton btnNegate;
 	private JButton btnDecimal;
 	
+	int index = -1;
+	int ch;
+	
 	private boolean operatorPressed = false;
 
 	/**
@@ -136,7 +139,7 @@ public class Calculator {
 		
 		btnDivide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				operatorPressed("\u00F7");
+				operatorPressed("/");
 			}
 		});
 		
@@ -189,6 +192,13 @@ public class Calculator {
 		btnEquals.setFont(new Font("Tahoma", Font.BOLD, 29));
 		btnEquals.setBounds(378, 479, 106, 176);
 		frmCalculator.getContentPane().add(btnEquals);
+		
+		btnEquals.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prevOperation.setText(prevOperation.getText() + textField.getText());
+				equation();
+			}
+		});
 		
 		/***************************************************/
 		
@@ -377,5 +387,86 @@ public class Calculator {
 			prevOperation.setText(prevOperation.getText() + textField.getText() + " " + operator + " ");
 		
 		operatorPressed = true;
+	}
+	
+	/**
+	 * Move and get next character
+	 */
+	private void nextChar() {
+		if(++index < prevOperation.getText().length())
+			ch = prevOperation.getText().charAt(index);
+		else
+			ch = -1;
+	}
+	
+	/**
+	 * Check if next available character is
+	 * the character that we're looking for
+	 * 
+	 * @param targetChar
+	 * @return boolean
+	 */
+	private boolean currentChar(int targetChar) {
+		// skip whitespace
+		while(ch == ' ')
+			nextChar();
+		
+		if(ch == targetChar) {
+			nextChar();
+			return true;
+		}
+		
+		return false;		
+	}
+	
+	//	<exp> = <term> | <exp> '+' <term> | <exp> '-' <term>
+	//	<term> = <factor> | <term> '*' <factor> | <term> '/' <factor>
+	//	<factor> = '+' <factor> | '-' <factor> | '(' <exp> ')' | <number> | <factor> '^' <factor>
+	private void equation() {
+		System.out.println(prevOperation.getText());
+		index = -1;
+		ch = -1;
+		
+		nextChar();
+		
+		textField.setText(String.valueOf(exp()));
+		
+		prevOperation.setText("");
+	}
+	
+	private double exp() {
+		double x = term();
+		
+		while(true) {
+			if(currentChar('+'))
+				x += term();
+			else if(currentChar('-'))
+				x -= term();
+			else
+				return x;
+		}
+	}
+	
+	private double term() {
+		double x = factor();
+		
+		while(true) {
+		if(currentChar('*'))
+			x *= factor();
+		else if(currentChar('/'))
+			x /= factor();
+		else
+			return x;
+		}
+	}
+	
+	private double factor() {
+		int startPos = index;
+		
+		nextChar();
+		
+		while(ch >= '0' && ch <= '9' || ch == '.')
+			nextChar();
+		return(Double.parseDouble((prevOperation.getText()).substring(startPos, index)));
 	}
 }
