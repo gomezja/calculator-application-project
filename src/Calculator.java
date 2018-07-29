@@ -43,6 +43,7 @@ public class Calculator {
 	int ch;
 	
 	private boolean operatorPressed = false;
+	private boolean decimalUsed = false;
 
 	/**
 	 * Launch the application.
@@ -196,6 +197,9 @@ public class Calculator {
 		btnEquals.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				prevOperation.setText(prevOperation.getText() + textField.getText());
+				
+				decimalUsed = false;
+				
 				equation();
 			}
 		});
@@ -348,12 +352,27 @@ public class Calculator {
 		btnDecimal.setBounds(257, 575, 106, 80);
 		frmCalculator.getContentPane().add(btnDecimal);
 		
+		btnDecimal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				if((operatorPressed && !decimalUsed) || (textField.getText().equals("0") && !decimalUsed)) {
+					setDigit("0.");
+					
+					decimalUsed = true;
+				} else if(!decimalUsed) {
+					setDigit(".");
+					
+					decimalUsed = true;
+				}
+			}
+		});
 	}
+	
 	/**
 	 * Resets calculator text field back to zero
 	 */
 	private void resetTextfield() {
 		textField.setText("0");
+		decimalUsed = false;
 	}
 	
 	/**
@@ -387,6 +406,7 @@ public class Calculator {
 			prevOperation.setText(prevOperation.getText() + textField.getText() + " " + operator + " ");
 		
 		operatorPressed = true;
+		decimalUsed = false;
 	}
 	
 	/**
