@@ -345,6 +345,22 @@ public class Calculator {
 		btnNegate.setBounds(15, 575, 106, 80);
 		frmCalculator.getContentPane().add(btnNegate);
 		
+		btnNegate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// text field is not zero
+				if(!textField.getText().equals("0")) {
+					StringBuilder str = new StringBuilder(textField.getText());
+					
+					if(textField.getText().charAt(0) != '-')
+						str.insert(0, "-");
+					else
+						str.deleteCharAt(0);
+					
+					textField.setText(str.toString());
+				}
+			}
+		});
+		
 		// button decimal (.)
 		btnDecimal = new JButton(".");
 		btnDecimal.setBackground(Color.WHITE);
@@ -454,6 +470,7 @@ public class Calculator {
 		prevOperation.setText("");
 	}
 	
+	//	<exp> = <term> | <exp> '+' <term> | <exp> '-' <term>
 	private double exp() {
 		double x = term();
 		
@@ -467,6 +484,7 @@ public class Calculator {
 		}
 	}
 	
+	//	<term> = <factor> | <term> '*' <factor> | <term> '/' <factor>
 	private double term() {
 		double x = factor();
 		
@@ -480,7 +498,13 @@ public class Calculator {
 		}
 	}
 	
+	//	<factor> = '+' <factor> | '-' <factor> | '(' <exp> ')' | <number> | <factor> '^' <factor>
 	private double factor() {
+		if(currentChar('+'))
+			return factor();
+		else if(currentChar('-'))
+			return -factor();
+			
 		int startPos = index;
 		
 		nextChar();
