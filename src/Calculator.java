@@ -418,11 +418,18 @@ public class Calculator {
 	 * @param operator
 	 */
 	private void operatorPressed(String operator) {
+		// set default decimal format X.0
+		if(decimalUsed && textField.getText().charAt(textField.getText().length() - 1) == '.')
+			textField.setText(textField.getText() + "0");
+			
+		decimalUsed = false;
+		
 		if(!operatorPressed)
 			prevOperation.setText(prevOperation.getText() + textField.getText() + " " + operator + " ");
 		
 		operatorPressed = true;
-		decimalUsed = false;
+		
+
 	}
 	
 	/**
