@@ -420,16 +420,16 @@ public class Calculator {
 	private void operatorPressed(String operator) {
 		// set default decimal format X.0
 		if(decimalUsed && textField.getText().charAt(textField.getText().length() - 1) == '.')
-			textField.setText(textField.getText() + "0");
-			
+			textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
+		else
+			textField.setText(checkDecimal(Double.parseDouble(textField.getText())));
+
 		decimalUsed = false;
 		
 		if(!operatorPressed)
 			prevOperation.setText(prevOperation.getText() + textField.getText() + " " + operator + " ");
 		
 		operatorPressed = true;
-		
-
 	}
 	
 	/**
@@ -462,6 +462,23 @@ public class Calculator {
 		return false;		
 	}
 	
+	/**
+	 * Check if argument is a whole number.
+	 * If it is, remove last two characters.
+	 * 
+	 * @param num
+	 * @return String
+	 */
+	private String checkDecimal(double num) {
+		// check if result is a whole number
+		if(num % 1 == 0) {
+			// remove last two characters
+			return String.valueOf(num).substring(0, String.valueOf(num).length() - 2);
+		}
+		
+		return String.valueOf(num);
+	}
+	
 	//	<exp> = <term> | <exp> '+' <term> | <exp> '-' <term>
 	//	<term> = <factor> | <term> '*' <factor> | <term> '/' <factor>
 	//	<factor> = '+' <factor> | '-' <factor> | '(' <exp> ')' | <number> | <factor> '^' <factor>
@@ -472,10 +489,12 @@ public class Calculator {
 		
 		nextChar();
 		
-		textField.setText(String.valueOf(exp()));
+		textField.setText(checkDecimal(exp()));
 		
 		prevOperation.setText("");
 	}
+	
+
 	
 	//	<exp> = <term> | <exp> '+' <term> | <exp> '-' <term>
 	private double exp() {
